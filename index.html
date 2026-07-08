@@ -3,38 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ม.1 Unit 3 - Viewing a house</title>
+    <title>ม.1 Unit 3 Let's go in</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body { background: linear-gradient(135deg, #f0fdf4, #dcfce7); font-family: 'Sarabun', 'Poppins', sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 10px; height: 100vh; overflow: hidden; box-sizing: border-box; }
+        * { box-sizing: border-box; }
+        body { background: linear-gradient(135deg, #f0fdf4, #dcfce7); font-family: 'Sarabun', 'Poppins', sans-serif; display: flex; flex-direction: column; align-items: center; margin: 0; padding: 15px 5px; min-height: 100vh; }
         
-        .header-container { text-align: center; margin-bottom: 10px; width: 100%; }
-        .welcome-text { font-size: 15px; font-weight: 600; color: #065f46; background: #ffffff; padding: 8px 15px; border-radius: 50px; display: inline-flex; align-items: center; gap: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); border: 2px solid #a7f3d0; }
-        .logout-btn { cursor: pointer; border: none; background: #ef4444; color: white; border-radius: 8px; padding: 4px 12px; font-size: 13px; font-family: 'Sarabun'; font-weight: bold; }
+        /* Header & Logout */
+        .header-container { text-align: center; margin-bottom: 15px; width: 100%; }
+        .welcome-text { font-size: 13px; font-weight: 600; color: #065f46; background: #ffffff; padding: 6px 12px; border-radius: 50px; display: inline-flex; align-items: center; gap: 10px; border: 2px solid #a7f3d0; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .logout-btn { cursor: pointer; border: none; background: #ef4444; color: white; border-radius: 6px; padding: 3px 8px; font-size: 12px; font-family: 'Sarabun'; font-weight: bold; }
+
+        h2.title { color: #ffffff; background: linear-gradient(135deg, #f97316, #ea580c); padding: 10px 20px; border-radius: 50px; margin: 0 0 15px 0; font-size: 20px; text-align: center; border: 3px solid #fff; width: 95%; max-width: 600px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         
-        h2.title { color: #ffffff; background: linear-gradient(135deg, #f97316, #ea580c); padding: 10px 30px; border-radius: 50px; margin-bottom: 15px; font-size: 24px; text-align: center; border: 4px solid #fff; }
-        
-        .app-container { width: 100%; max-width: 700px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 25px; text-align: center; border: 2px solid #bbf7d0; box-sizing: border-box; overflow-y: auto; max-height: 70vh; }
+        .app-container { width: 95%; max-width: 600px; background: #ffffff; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 25px; text-align: center; border: 2px solid #bbf7d0; margin-bottom: 20px; }
         
         /* Media & Dialog */
         .media-controls { margin-bottom: 20px; }
-        .toggle-btn { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 16px; font-family: 'Sarabun'; cursor: pointer; font-weight: bold; transition: 0.2s; }
+        .toggle-btn { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 16px; font-family: 'Sarabun'; cursor: pointer; font-weight: bold; transition: 0.2s; width: 100%; }
         .toggle-btn:hover { background: #2563eb; }
         
         /* Popup Dialog Modal */
         .dialog-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1500; justify-content: center; align-items: center; }
-        .dialog-content { background: #fff; padding: 25px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; text-align: left; font-size: 16px; color: #334155; line-height: 1.6; border: 4px solid #3b82f6; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
-        .close-dialog-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Sarabun'; }
+        .dialog-content { background: #fff; padding: 25px; border-radius: 15px; width: 90%; max-width: 450px; position: relative; text-align: left; font-size: 16px; color: #334155; line-height: 1.6; border: 4px solid #3b82f6; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .close-dialog-btn { position: absolute; top: -15px; right: -15px; background: #ef4444; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 18px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
         
-        /* Questions */
+        /* Questions & Options */
         .instruction-text { font-size: 18px; color: #3b82f6; font-weight: bold; display: block; margin-bottom: 10px; }
-        .question-text { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 30px; line-height: 1.5; }
-        .options-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
-        .option-btn { background: #fff; border: 3px solid #cbd5e1; color: #475569; padding: 12px 35px; border-radius: 15px; font-size: 20px; font-family: 'Poppins', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #cbd5e1; transition: 0.2s; }
-        .option-btn:hover { transform: translateY(-3px); box-shadow: 0 7px 0 #cbd5e1; }
+        .question-text { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 25px; line-height: 1.5; }
         
-        .feedback { font-size: 20px; font-weight: bold; min-height: 30px; margin-bottom: 15px; opacity: 0; }
+        .options-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
+        .option-btn { background: #fff; border: 3px solid #cbd5e1; color: #475569; padding: 12px 35px; border-radius: 15px; font-size: 20px; font-family: 'Poppins', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #cbd5e1; transition: all 0.2s; min-width: 120px; }
+        
+        /* Hover Effect */
+        .option-btn:hover:not(:disabled) { 
+            background: #dbeafe; 
+            border-color: #3b82f6; 
+            transform: scale(1.03); 
+            box-shadow: 0 4px 10px rgba(59,130,246,0.3); 
+            color: #1e40af;
+        }
+        .option-btn:active:not(:disabled) {
+            background: #bfdbfe;
+            transform: scale(0.98);
+            box-shadow: 0 2px 0 #3b82f6;
+        }
+        .option-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+        
+        .feedback { font-size: 20px; font-weight: bold; min-height: 30px; margin-bottom: 10px; opacity: 0; }
         .feedback.correct { color: #10b981; opacity: 1; }
         .feedback.wrong { color: #ef4444; opacity: 1; }
         .progress { font-size: 16px; color: #64748b; font-weight: 600; margin-bottom: 10px; }
@@ -42,32 +59,32 @@
         /* Modals */
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 23, 42, 0.85); display: flex; justify-content: center; align-items: center; z-index: 2000; visibility: hidden; opacity: 0; transition: 0.3s; }
         .modal-overlay.active { visibility: visible; opacity: 1; }
-        .modal-box { background: white; padding: 30px; border-radius: 20px; text-align: center; width: 90%; max-width: 400px; border: 4px solid #f97316; }
-        .modal-box input { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 16px; text-align: center; box-sizing: border-box; }
-        .action-btn { width: 100%; padding: 12px; background: #f97316; color: white; border: none; border-radius: 10px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .modal-box { background: white; padding: 25px; border-radius: 20px; text-align: center; width: 90%; max-width: 350px; border: 4px solid #f97316; }
+        .modal-box h2 { color: #ea580c; margin-top: 0; font-size: 20px; }
+        .modal-box input { width: 100%; padding: 10px; margin-bottom: 12px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 14px; text-align: center; box-sizing: border-box; font-family: 'Sarabun'; }
+        .action-btn { width: 100%; padding: 12px; background: #f97316; color: white; border: none; border-radius: 10px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 5px; font-family: 'Sarabun'; }
+        .action-btn.secondary { background: #64748b; margin-top: 10px; }
         .score-number { color: #ea580c; font-size: 45px; font-weight: 800; display: block; margin: 10px 0; }
     </style>
 </head>
 <body>
 
-    <div class="header-container">
-        <div id="welcome-section" style="display: none;">
-            <div class="welcome-text">
-                👤 <span id="show_name"></span> | 🏫 <span id="show_room"></span> | 🆔 <span id="show_id"></span>
-                <button class="logout-btn" onclick="logoutUser()">สลับบัญชี</button>
-            </div>
+    <div class="header-container" id="welcome-section" style="display: none;">
+        <div class="welcome-text">
+            👤 <span id="show_name"></span> | 🏫 <span id="show_room"></span> | 🆔 <span id="show_id"></span>
+            <button class="logout-btn" onclick="logoutUser()">สลับบัญชี</button>
         </div>
     </div>
 
-    <h2 class="title"><i class="fa-solid fa-house"></i> ม.1 Unit 3: Viewing a house</h2>
+    <h2 class="title"><i class="fa-solid fa-house"></i> ม.1 Unit 3 Let's go in</h2>
 
     <div class="app-container" id="gameArea" style="display: none;">
         
         <div class="media-controls">
-            <audio id="lessonAudio" controls style="width: 100%; margin-bottom: 10px;">
+            <audio id="lessonAudio" controls style="width: 100%; margin-bottom: 15px;">
                 <source src="audio.mp3" type="audio/mpeg">
             </audio>
-            <button class="toggle-btn" onclick="openDialog()">📖 เปิดดูบทสนทนา</button>
+            <button class="toggle-btn" onclick="openDialog()">📖 เปิดอ่านบทสนทนา</button>
         </div>
 
         <hr style="border: 1px dashed #cbd5e1; margin: 20px 0;">
@@ -82,7 +99,7 @@
 
     <div class="dialog-modal" id="dialogModal">
         <div class="dialog-content">
-            <button class="close-dialog-btn" onclick="closeDialog()"><i class="fa-solid fa-xmark"></i> ปิด</button>
+            <button class="close-dialog-btn" onclick="closeDialog()"><i class="fa-solid fa-xmark"></i></button>
             <b>Ryan:</b> Which house is it, Dad?<br>
             <b>Dad:</b> This one. Here we are.<br>
             <b>Ryan:</b> Wow! It's great and the garden is beautiful.<br>
@@ -97,27 +114,40 @@
 
     <div class="modal-overlay" id="loginModal">
         <div class="modal-box">
-            <h2 style="color:#ea580c; margin-top:0;">ลงชื่อก่อนส่งคะแนน</h2>
-            <input type="text" id="m_name" placeholder="ชื่อ - นามสกุล">
+            <h2>👋 ลงชื่อก่อนเริ่มกิจกรรม</h2>
+            <input type="text" id="m_name" placeholder="ชื่อ - นามสกุล" autocomplete="name">
             <input type="text" id="m_room" placeholder="ชั้น/ห้อง (เช่น 1/1)">
             <input type="text" id="m_id" placeholder="รหัสนักเรียน (5 หลัก)" maxlength="5" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
-            <button class="action-btn" onclick="saveUserDataAndSubmit()">🚀 ยืนยันและส่งคะแนน</button>
-            <div id="modal-err" style="color:#ef4444; font-size:14px; margin-top:10px; display:none;"></div>
+            <button class="action-btn" onclick="saveUserDataAndStart()">🚀 ยืนยันและเริ่มเกม</button>
+            <div id="modal-err" style="color:#ef4444; font-size:13px; margin-top:10px; display:none;"></div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="logoutModal">
+        <div class="modal-box">
+            <h2>❓ เปลี่ยนชื่อผู้เล่น</h2>
+            <div style="font-size: 14px; margin-bottom: 20px; color: #475569;">ข้อมูลเดิมจะถูกลบออกทั้งหมด</div>
+            <button class="action-btn" onclick="confirmLogout()">✔️ ยืนยัน</button>
+            <button class="action-btn secondary" onclick="closeLogout()">❌ ยกเลิก</button>
         </div>
     </div>
 
     <div class="modal-overlay" id="scoreModal">
         <div class="modal-box">
-            <h2 style="color:#ea580c; margin-top:0;">🎉 Finished!</h2>
-            <div style="font-size: 18px; color: #475569; font-weight: bold;">คุณทำคะแนนได้</div>
+            <h2>🎉 Finished!</h2>
+            <div style="font-size: 16px; color: #475569; font-weight: bold;">คะแนนของคุณ</div>
             <span class="score-number" id="finalScore">0 / 10</span>
-            <div id="saveStatus" style="font-size: 16px; color: #ea580c; font-weight: bold; margin-bottom: 15px; display: none;">⏳ กำลังบันทึกคะแนน...</div>
+            <div id="saveStatus" style="font-size: 14px; color: #ea580c; font-weight: bold; margin-bottom: 15px; display: none;">⏳ กำลังบันทึกคะแนน...</div>
+            <button class="action-btn" id="playAgainBtn" onclick="restartApp()" style="display:none;">🔄 เล่นอีกครั้ง</button>
         </div>
     </div>
 
 <script>
+    // URL จากไฟล์ Culture corner ของคุณ
     const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxd_UGE1ZY_1dcB3B7l0Vy8azxhuuFoc_kftJ7QZ1Nc4XIaXGKF9RPs8WxhZ0K5VyVN/exec';
-    const LESSON_NAME = "ม.1 Unit 3 Viewing House";
+    
+    // เปลี่ยนชื่อบทเรียนสำหรับบันทึกลง Google Sheet ตรงนี้
+    const LESSON_NAME = "ม.1 Unit 3 Let's go in";
 
     const questions = [
         { q: `"Which house is it, Dad?"`, ans: "Ryan" },
@@ -135,24 +165,32 @@
     let currentQ = 0, score = 0, canClick = true;
     let studentData = { name: "", room: "", id: "" };
 
+    // Dialog Functions
     function openDialog() { document.getElementById("dialogModal").style.display = "flex"; }
     function closeDialog() { document.getElementById("dialogModal").style.display = "none"; }
 
     window.onload = () => {
-        document.getElementById('m_room').addEventListener('blur', function() {
-            let nums = this.value.trim().match(/\d+/g);
-            this.value = (nums && nums.length >= 2) ? `ม.${nums[0]}/${nums[1]}` : ((nums && nums.length===1) ? `ม.${nums[0]}` : this.value.trim());
-        });
+        document.getElementById('m_room').addEventListener('blur', function() { this.value = autoFormatRoom(this.value); });
 
         if(localStorage.getItem('studentName')) {
             studentData.name = localStorage.getItem('studentName');
             studentData.room = localStorage.getItem('studentRoom');
             studentData.id = localStorage.getItem('studentId');
             updateHeader();
+            startGame();
+        } else {
+            document.getElementById('loginModal').classList.add('active');
         }
-        startGame();
     };
 
+    function autoFormatRoom(val) {
+        let nums = val.trim().match(/\d+/g);
+        if (nums && nums.length >= 2) return `ม.${nums[0]}/${nums[1]}`;
+        if (nums && nums.length === 1) return `ม.${nums[0]}`;
+        return val.trim();
+    }
+
+    // Login / Logout Functions
     function updateHeader() {
         document.getElementById('show_name').innerText = studentData.name;
         document.getElementById('show_room').innerText = studentData.room;
@@ -160,10 +198,41 @@
         document.getElementById('welcome-section').style.display = 'block';
     }
 
-    function logoutUser() {
-        if(confirm("เปลี่ยนผู้เล่น?")) { localStorage.clear(); location.reload(); }
+    function logoutUser() { document.getElementById('logoutModal').classList.add('active'); }
+    function closeLogout() { document.getElementById('logoutModal').classList.remove('active'); }
+    
+    function confirmLogout() {
+        localStorage.clear(); studentData = { name: "", room: "", id: "" };
+        document.getElementById('welcome-section').style.display = 'none';
+        document.getElementById('gameArea').style.display = 'none';
+        closeLogout(); 
+        document.getElementById('loginModal').classList.add('active');
     }
 
+    function saveUserDataAndStart() {
+        let n = document.getElementById('m_name').value.trim();
+        let r = autoFormatRoom(document.getElementById('m_room').value);
+        let i = document.getElementById('m_id').value.trim();
+        let err = document.getElementById('modal-err');
+        
+        if(!n || !r || i.length !== 5) { 
+            err.innerText = "กรุณากรอกข้อมูลให้ครบ (รหัส 5 หลัก)"; 
+            err.style.display = 'block'; 
+            return; 
+        }
+        err.style.display = 'none';
+        
+        studentData = { name: n, room: r, id: i };
+        localStorage.setItem('studentName', n); 
+        localStorage.setItem('studentRoom', r); 
+        localStorage.setItem('studentId', i);
+        
+        document.getElementById('loginModal').classList.remove('active');
+        updateHeader(); 
+        startGame();
+    }
+
+    // Game Logic
     function startGame() {
         currentQ = 0; score = 0; canClick = true;
         document.getElementById('gameArea').style.display = 'block';
@@ -184,62 +253,88 @@
         let choices = questions[currentQ].options || ["Ryan", "Dad"];
         
         choices.forEach(choice => {
-            optsBox.innerHTML += `<button class="option-btn" onclick="checkAnswer('${choice}')">${choice}</button>`;
+            optsBox.innerHTML += `<button class="option-btn" onclick="checkAnswer('${choice}', this)">${choice}</button>`;
         });
     }
 
-    function checkAnswer(ans) {
+    function checkAnswer(ans, btnElement) {
         if(!canClick) return;
         canClick = false;
         
+        // ปิดปุ่มทั้งหมดกันกดเบิ้ล
+        let allBtns = document.querySelectorAll('.option-btn');
+        allBtns.forEach(btn => btn.disabled = true);
+        
         let fb = document.getElementById('feedbackText');
         if(ans === questions[currentQ].ans) {
-            score++; fb.innerText = "✅ Correct!"; fb.className = 'feedback correct';
+            score++; 
+            fb.innerText = "✅ Correct!"; 
+            fb.className = 'feedback correct';
+            btnElement.style.background = '#d1fae5'; // สีเขียวอ่อนตอนตอบถูก
+            btnElement.style.borderColor = '#10b981';
         } else {
-            fb.innerText = `❌ Incorrect (Answer: ${questions[currentQ].ans})`; fb.className = 'feedback wrong';
+            fb.innerText = `❌ Incorrect (Answer: ${questions[currentQ].ans})`; 
+            fb.className = 'feedback wrong';
+            btnElement.style.background = '#fee2e2'; // สีแดงอ่อนตอนตอบผิด
+            btnElement.style.borderColor = '#ef4444';
         }
 
         setTimeout(() => {
             currentQ++;
-            if(currentQ < questions.length) { loadQuestion(); canClick = true; } 
-            else { endGame(); }
+            if(currentQ < questions.length) { 
+                loadQuestion(); 
+                canClick = true; 
+            } else { 
+                endGame(); 
+            }
         }, 1500);
     }
 
     function endGame() {
         document.getElementById('finalScore').innerText = `${score} / ${questions.length}`;
-        if (studentData.id) {
-            document.getElementById('scoreModal').classList.add('active');
-            submitScore();
-        } else {
-            document.getElementById('loginModal').classList.add('active');
-        }
-    }
-
-    function saveUserDataAndSubmit() {
-        let n = document.getElementById('m_name').value.trim();
-        let r = document.getElementById('m_room').value.trim();
-        let i = document.getElementById('m_id').value.trim();
-        if(!n || !r || i.length !== 5) {
-            document.getElementById('modal-err').style.display = 'block';
-            document.getElementById('modal-err').innerText = "กรุณากรอกให้ครบ (รหัส 5 หลัก)"; return;
-        }
-        studentData = { name: n, room: r, id: i };
-        localStorage.setItem('studentName', n); localStorage.setItem('studentRoom', r); localStorage.setItem('studentId', i);
-        document.getElementById('loginModal').classList.remove('active');
-        updateHeader(); document.getElementById('scoreModal').classList.add('active'); submitScore();
+        document.getElementById('scoreModal').classList.add('active');
+        submitScore();
     }
 
     async function submitScore() {
         let stat = document.getElementById('saveStatus');
-        stat.style.display = 'block'; stat.innerText = "⏳ กำลังบันทึกคะแนน...";
-        const payload = { name: studentData.name, room: studentData.room, studentId: "'" + studentData.id, lesson: LESSON_NAME, score: score, maxScore: questions.length, _t: new Date().getTime() };
+        let playBtn = document.getElementById('playAgainBtn');
+        
+        stat.style.display = 'block'; 
+        stat.innerText = "⏳ กำลังบันทึกคะแนน..."; 
+        playBtn.style.display = 'none';
+        
+        // โครงสร้าง Payload ส่งคะแนนตามแบบฉบับของคุณเป๊ะ
+        const payload = { 
+            name: studentData.name, 
+            room: studentData.room, 
+            studentId: "'" + studentData.id, 
+            lesson: LESSON_NAME, 
+            score: score, 
+            maxScore: questions.length, 
+            _t: new Date().getTime() 
+        };
+        
         try {
-            await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(payload), headers: { "Content-Type": "text/plain;charset=utf-8" } });
-            stat.innerText = '✅ บันทึกคะแนนสำเร็จ!'; stat.style.color = '#10b981';
+            await fetch(SCRIPT_URL, { 
+                method: 'POST', 
+                mode: 'no-cors', 
+                body: JSON.stringify(payload), 
+                headers: { "Content-Type": "text/plain;charset=utf-8" } 
+            });
+            stat.innerText = '✅ บันทึกคะแนนสำเร็จ!'; 
+            stat.style.color = '#10b981';
         } catch(e) {
-            stat.innerText = '❌ ส่งข้อมูลไม่สำเร็จ'; stat.style.color = '#ef4444';
+            stat.innerText = '❌ ส่งข้อมูลไม่สำเร็จ'; 
+            stat.style.color = '#ef4444';
         }
+        
+        playBtn.style.display = 'inline-block';
+    }
+
+    function restartApp() {
+        document.getElementById('scoreModal').classList.remove('active');
+        startGame(); 
     }
 </script>
 </body>
