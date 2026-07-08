@@ -21,8 +21,14 @@
         .media-controls { margin-bottom: 20px; }
         .toggle-btn { background: #3b82f6; color: white; border: none; padding: 10px 20px; border-radius: 10px; font-size: 16px; font-family: 'Sarabun'; cursor: pointer; font-weight: bold; transition: 0.2s; }
         .toggle-btn:hover { background: #2563eb; }
-        .dialog-box { display: none; background: #f8fafc; border-left: 4px solid #3b82f6; padding: 15px; margin-top: 10px; text-align: left; font-size: 16px; border-radius: 0 10px 10px 0; color: #334155; }
         
+        /* Popup Dialog Modal */
+        .dialog-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1500; justify-content: center; align-items: center; }
+        .dialog-content { background: #fff; padding: 25px; border-radius: 15px; width: 90%; max-width: 500px; position: relative; text-align: left; font-size: 16px; color: #334155; line-height: 1.6; border: 4px solid #3b82f6; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        .close-dialog-btn { position: absolute; top: 10px; right: 10px; background: #ef4444; color: white; border: none; padding: 5px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; font-family: 'Sarabun'; }
+        
+        /* Questions */
+        .instruction-text { font-size: 18px; color: #3b82f6; font-weight: bold; display: block; margin-bottom: 10px; }
         .question-text { font-size: 22px; font-weight: 700; color: #1e293b; margin-bottom: 30px; line-height: 1.5; }
         .options-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; }
         .option-btn { background: #fff; border: 3px solid #cbd5e1; color: #475569; padding: 12px 35px; border-radius: 15px; font-size: 20px; font-family: 'Poppins', sans-serif; font-weight: 700; cursor: pointer; box-shadow: 0 4px 0 #cbd5e1; transition: 0.2s; }
@@ -61,18 +67,7 @@
             <audio id="lessonAudio" controls style="width: 100%; margin-bottom: 10px;">
                 <source src="audio.mp3" type="audio/mpeg">
             </audio>
-            <button class="toggle-btn" onclick="toggleDialog()">📖 แสดง/ซ่อน บทสนทนา</button>
-            <div class="dialog-box" id="dialogText">
-                <b>Ryan:</b> Which house is it, Dad?<br>
-                <b>Dad:</b> This one. Here we are.<br>
-                <b>Ryan:</b> Wow! It's great and the garden is beautiful.<br>
-                <b>Dad:</b> I've got the key. Let's go in.<br>
-                <b>Ryan:</b> This is nice. The living room is very big.<br>
-                <b>Dad:</b> Yes, but the kitchen is quite small. Let's go upstairs.<br>
-                <b>Ryan:</b> Which is my bedroom?<br>
-                <b>Dad:</b> This one here. It's your favourite colour - blue.<br>
-                <b>Ryan:</b> It's great, Dad!
-            </div>
+            <button class="toggle-btn" onclick="openDialog()">📖 เปิดดูบทสนทนา</button>
         </div>
 
         <hr style="border: 1px dashed #cbd5e1; margin: 20px 0;">
@@ -80,10 +75,24 @@
         <div class="progress" id="progressText">Question 1 / 10</div>
         <div class="question-text" id="questionText">Loading...</div>
         
-        <div class="options-container" id="optionsBox">
-            </div>
+        <div class="options-container" id="optionsBox"></div>
 
         <div class="feedback" id="feedbackText">Correct!</div>
+    </div>
+
+    <div class="dialog-modal" id="dialogModal">
+        <div class="dialog-content">
+            <button class="close-dialog-btn" onclick="closeDialog()"><i class="fa-solid fa-xmark"></i> ปิด</button>
+            <b>Ryan:</b> Which house is it, Dad?<br>
+            <b>Dad:</b> This one. Here we are.<br>
+            <b>Ryan:</b> Wow! It's great and the garden is beautiful.<br>
+            <b>Dad:</b> I've got the key. Let's go in.<br>
+            <b>Ryan:</b> This is nice. The living room is very big.<br>
+            <b>Dad:</b> Yes, but the kitchen is quite small. Let's go upstairs.<br>
+            <b>Ryan:</b> Which is my bedroom?<br>
+            <b>Dad:</b> This one here. It's your favourite colour - blue.<br>
+            <b>Ryan:</b> It's great, Dad!
+        </div>
     </div>
 
     <div class="modal-overlay" id="loginModal">
@@ -120,17 +129,14 @@
         { q: `"Which is my bedroom?"`, ans: "Ryan" },
         { q: `"This one here. It's your favourite colour - blue."`, ans: "Dad" },
         { q: `"It's great, Dad!"`, ans: "Ryan" },
-        // เปลี่ยนชื่อไฟล์รูปตรง src ด้านล่าง
         { q: `<img src="house.jpg" style="width:100%; max-width:350px; border-radius:10px; margin-bottom:15px;"><br>Which is their house?`, ans: "A", options: ["A", "B"] }
     ];
 
     let currentQ = 0, score = 0, canClick = true;
     let studentData = { name: "", room: "", id: "" };
 
-    function toggleDialog() {
-        let box = document.getElementById("dialogText");
-        box.style.display = (box.style.display === "none" || box.style.display === "") ? "block" : "none";
-    }
+    function openDialog() { document.getElementById("dialogModal").style.display = "flex"; }
+    function closeDialog() { document.getElementById("dialogModal").style.display = "none"; }
 
     window.onload = () => {
         document.getElementById('m_room').addEventListener('blur', function() {
@@ -166,7 +172,11 @@
 
     function loadQuestion() {
         document.getElementById('progressText').innerText = `Question ${currentQ + 1} / ${questions.length}`;
-        document.getElementById('questionText').innerHTML = questions[currentQ].q;
+        
+        // แทรกคำว่า Who is speaking? ให้เฉพาะข้อ 1-9
+        let instruction = (currentQ < questions.length - 1) ? "<span class='instruction-text'>🗣️ Who is speaking?</span>" : "";
+        document.getElementById('questionText').innerHTML = instruction + questions[currentQ].q;
+        
         document.getElementById('feedbackText').style.opacity = '0'; 
         
         let optsBox = document.getElementById('optionsBox');
